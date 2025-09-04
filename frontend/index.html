@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GOD'S WORD</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+  <div class="card">
+    <div class="header">
+      <div>
+        <h1 class="title">GOD'S WORD</h1>
+        <p class="subtitle">Type how you feel and get a Bible verse (English / Telugu)</p>
+      </div>
+      <div class="row">
+        <!-- optional small controls -->
+        <button class="icon-btn" title="Copy last verse">Copy</button>
+      </div>
+    </div>
+
+    <div class="controls">
+      <input id="emotionInput" class="input" placeholder="I'm feeling anxious, lonely, thankful..." />
+      <select id="languageSelect" class="select">
+        <option value="en">English</option>
+        <option value="te">Telugu</option>
+      </select>
+      <button class="btn" onclick="getVerse()">Get Verse</button>
+    </div>
+
+    <div id="result" class="result">
+      <div id="verseText" class="verse-text placeholder">Enter an emotion and press Get Verse.</div>
+      <div id="verseRef" class="verse-ref"></div>
+    </div>
+  </div>
+</div>
+
+    <script>
+        async function getVerse() {
+            const emotion = document.getElementById('emotionInput').value;
+            const language = document.getElementById('languageSelect').value;
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/getverse', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ emotion_text: emotion, language: language })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    document.getElementById('result').innerText = data.error;
+                } else {
+                    document.getElementById('result').innerText = data.verse;
+                }
+            } catch (err) {
+                document.getElementById('result').innerText = "Error connecting to backend";
+            }
+        }
+    </script>
+</body>
+</html>
