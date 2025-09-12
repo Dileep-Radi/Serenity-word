@@ -16,7 +16,7 @@ app.add_middleware(
 )
 
 # MongoDB connection
-client = MongoClient("mongodb+srv://Dileep:jesussaves@cluster0.3orsxcg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+client = MongoClient("mongodb+srv://Dileep:password@cluster0.3orsxcg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client["versefinder"]
 emotions_collection = db["emotions"]
 
